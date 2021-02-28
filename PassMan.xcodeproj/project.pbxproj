@@ -13,9 +13,12 @@
 		56365C8D25EAC8CF00E929CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56365C8B25EAC8CF00E929CE /* Main.storyboard */; };
 		56365C8F25EAC8D000E929CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56365C8E25EAC8D000E929CE /* Assets.xcassets */; };
 		56365C9225EAC8D000E929CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56365C9025EAC8D000E929CE /* LaunchScreen.storyboard */; };
+		B84CA291C6F81A40C562799A /* Pods_PassMan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CD75E28A76FADA5F30F3707 /* Pods_PassMan.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D99C3559C39A10A9FAA381A /* Pods-PassMan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PassMan.release.xcconfig"; path = "Target Support Files/Pods-PassMan/Pods-PassMan.release.xcconfig"; sourceTree = "<group>"; };
+		2CD75E28A76FADA5F30F3707 /* Pods_PassMan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PassMan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56365C8225EAC8CF00E929CE /* PassMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PassMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56365C8525EAC8CF00E929CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56365C8725EAC8CF00E929CE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		56365C8E25EAC8D000E929CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		56365C9125EAC8D000E929CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		56365C9325EAC8D000E929CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7D6D085E0869DED9CE854000 /* Pods-PassMan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PassMan.debug.xcconfig"; path = "Target Support Files/Pods-PassMan/Pods-PassMan.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B84CA291C6F81A40C562799A /* Pods_PassMan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		144744DE46A57FE85F14B16E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2CD75E28A76FADA5F30F3707 /* Pods_PassMan.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		56365C7925EAC8CF00E929CE = {
 			isa = PBXGroup;
 			children = (
 				56365C8425EAC8CF00E929CE /* PassMan */,
 				56365C8325EAC8CF00E929CE /* Products */,
+				BA9D01FFDAB94B17E8200AB6 /* Pods */,
+				144744DE46A57FE85F14B16E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +82,16 @@
 			path = PassMan;
 			sourceTree = "<group>";
 		};
+		BA9D01FFDAB94B17E8200AB6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7D6D085E0869DED9CE854000 /* Pods-PassMan.debug.xcconfig */,
+				0D99C3559C39A10A9FAA381A /* Pods-PassMan.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,6 +99,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 56365C9625EAC8D000E929CE /* Build configuration list for PBXNativeTarget "PassMan" */;
 			buildPhases = (
+				0F1A53CA051C356AA60EC1CC /* [CP] Check Pods Manifest.lock */,
 				56365C7E25EAC8CF00E929CE /* Sources */,
 				56365C7F25EAC8CF00E929CE /* Frameworks */,
 				56365C8025EAC8CF00E929CE /* Resources */,
@@ -131,6 +157,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0F1A53CA051C356AA60EC1CC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PassMan-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		56365C7E25EAC8CF00E929CE /* Sources */ = {
@@ -283,6 +334,7 @@
 		};
 		56365C9725EAC8D000E929CE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D6D085E0869DED9CE854000 /* Pods-PassMan.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +354,7 @@
 		};
 		56365C9825EAC8D000E929CE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D99C3559C39A10A9FAA381A /* Pods-PassMan.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
