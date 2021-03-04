@@ -21,6 +21,7 @@ extension PasswordsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		configureUI()
     }
 }
 
@@ -29,6 +30,7 @@ extension PasswordsViewController {
 	func configureUI() {
 		tableView.delegate = self
 		tableView.dataSource = self
+		tableView.registerCell(of: PasswordTableViewCell.self)
 	}
 }
 
@@ -51,7 +53,8 @@ extension PasswordsViewController: UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		PasswordTableViewCell()
+		let cell = tableView.dequeueCell(of: PasswordTableViewCell.self, for: indexPath)
+		return cell
 	}
 }
 

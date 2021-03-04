@@ -20,6 +20,7 @@ class NewPasswordViewController: BaseViewController {
 	
 	@IBOutlet var usernameTextField: UITextField!
 	@IBOutlet var passwordTextField: UITextField!
+	@IBOutlet var passwordLengthLabel: UILabel!
 	@IBOutlet var passwordLengthSlider: UISlider!
 	@IBOutlet var uppercaseSwitch: UISwitch!
 	@IBOutlet var numbersSwitch: UISwitch!
@@ -54,10 +55,15 @@ extension NewPasswordViewController {
 	
 	func configureUI() {
 		
+		passwordLengthLabel.text = "Password length: \(Int(passwordLengthSlider.value))"
 	}
 }
 
 extension NewPasswordViewController {
+	
+	@IBAction func passwordLengthSliderAction(_ sender: UISlider) {
+		passwordLengthLabel.text = "Password length: \(Int(sender.value))"
+	}
 	
 	@IBAction func uppercasesSwitchAction(_ sender: UISwitch) {
 		UIView.animate(withDuration: 0.3) {
