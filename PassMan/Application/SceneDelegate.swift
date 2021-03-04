@@ -11,12 +11,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	var window: UIWindow?
 
-
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-		// Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-		// If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-		// This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-		guard let _ = (scene as? UIWindowScene) else { return }
+		guard let windowScene = (scene as? UIWindowScene) else { return }
+		window = UIWindow(windowScene: windowScene)
+		setRoot()
+		window?.makeKeyAndVisible()
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {
@@ -46,7 +45,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		// Use this method to save data, release shared resources, and store enough scene-specific state information
 		// to restore the scene back to its current state.
 	}
-
-
 }
 
+// MARK: - UI Configuration
+extension SceneDelegate {
+	
+	/// Sets root view controller
+	/// - Parameter completion: Transition animation completion
+	func setRoot(_ completion: ((_ completed: Bool) -> Void)? = nil) {
+//		if AuthorizationManager.shared.user != nil {
+//			(UIApplication.shared.delegate as? AppDelegate)?.registerForPushNotifications()
+//			animateRootChange(to: MainTabBarController(), completion)
+//		} else {
+			animateRootChange(to: PasswordsViewController(), completion)
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 7) { [self] in
+//			animateRootChange(to: BaseViewController(), completion)
+//		}
+//		}
+	}
+	
+//	private func setLoginViewController(_ completion: ((_ completed: Bool) -> Void)? = nil) {
+//		(UIApplication.shared.delegate as? AppDelegate)?.unregisterForPushNotifications()
+//		let navigationVC = MainNavigationController(rootViewController: LoginViewController())
+//		navigationVC.isNavigationBarHidden = true
+//		animateRootChange(to: navigationVC, completion)
+//	}
+	
+	private func animateRootChange(to viewController: UIViewController, _ completion: ((_ completed: Bool) -> Void)? = nil) {
+		guard let window = window else { return }
+		
+		// Set the new rootViewController of the window.
+		// Calling "UIView.transition" below will animate the swap.
+		window.rootViewController = viewController
+		
+		// Creates a transition animation.
+		UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil) { (completed) in
+			completion?(completed)
+		}
+	}
+}
