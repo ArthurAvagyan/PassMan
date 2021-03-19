@@ -4,8 +4,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,8 +16,28 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colored_gradient" translatesAutoresizingMaskIntoConstraints="NO" id="b0p-PY-FAK">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="key_icon" translatesAutoresizingMaskIntoConstraints="NO" id="smx-9v-26M">
+                                <rect key="frame" x="124" y="365" width="166" height="166"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="smx-9v-26M" secondAttribute="height" id="J8f-kT-hUs"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <color key="backgroundColor" name="AccentColor"/>
+                        <constraints>
+                            <constraint firstItem="b0p-PY-FAK" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="8kM-QR-wff"/>
+                            <constraint firstAttribute="trailing" secondItem="b0p-PY-FAK" secondAttribute="trailing" id="TQe-3y-ibM"/>
+                            <constraint firstItem="smx-9v-26M" firstAttribute="width" secondItem="b0p-PY-FAK" secondAttribute="width" multiplier="0.4" id="VJ5-9a-NgG"/>
+                            <constraint firstItem="smx-9v-26M" firstAttribute="centerY" secondItem="b0p-PY-FAK" secondAttribute="centerY" id="dhN-tv-Jfu"/>
+                            <constraint firstAttribute="bottom" secondItem="b0p-PY-FAK" secondAttribute="bottom" id="gxw-Cv-6mp"/>
+                            <constraint firstItem="smx-9v-26M" firstAttribute="centerX" secondItem="b0p-PY-FAK" secondAttribute="centerX" id="m6S-UZ-e9p"/>
+                            <constraint firstItem="b0p-PY-FAK" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="m6X-2B-Rg6"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -26,8 +46,10 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <image name="colored_gradient" width="1536" height="1536"/>
+        <image name="key_icon" width="1024" height="1024"/>
+        <namedColor name="AccentColor">
+            <color red="1" green="0.58399999141693115" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="PasswordCoreModel" representedClassName="PasswordCoreModel" syncable="YES">
+        <attribute name="name" attributeType="String"/>
+        <attribute name="password" attributeType="String"/>
+        <attribute name="userEmail" optional="YES" attributeType="String"/>
+        <attribute name="username" attributeType="String"/>
+    </entity>
+    <entity name="UserCoreModel" representedClassName="UserCoreModel" syncable="YES">
+        <attribute name="email" attributeType="String"/>
+        <attribute name="hashedMasterPassword" attributeType="Transformable" customClassName="[UInt8]"/>
+    </entity>
+    <elements>
+        <element name="PasswordCoreModel" positionX="-45" positionY="0" width="128" height="89"/>
+        <element name="UserCoreModel" positionX="-45" positionY="27" width="128" height="59"/>
+    </elements>
+</model>

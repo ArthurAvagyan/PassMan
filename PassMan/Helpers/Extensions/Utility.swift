@@ -120,22 +120,26 @@ extension String {
 	enum PasswordValidation {
 		
 		case noNumber
-		case noLetter
+		case noLowercase
+		case noUppercase
 		case noSpecial
 		case short
-		case long
 		case valid
+		
+		var isValid: Bool {
+			self == .valid
+		}
 	}
 	
 	var isValidPassword: PasswordValidation {
 		if count < 8 {
 			return .short
-		} else if count > 50 {
-			return .long
 		} else if !isMatchingRegex("[0-9]") {
 			return .noNumber
-		} else if !isMatchingRegex("[A-Za-z]") {
-			return .noLetter
+		} else if !isMatchingRegex("[a-z]") {
+			return .noLowercase
+		} else if !isMatchingRegex("[A-Z]") {
+			return .noUppercase
 		} else if !isMatchingRegex("[\\[\\]\\{\\}\\s#%^*+=_\\\\|~<>…€£¥•.,?!'-/:;`()$&@\"]") {
 			return .noSpecial
 		}

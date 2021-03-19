@@ -23,7 +23,12 @@ enum ValidationErrorType: Int {
 // MARK: - ColorType
 enum ColorType: String {
 	
-	case appTempColor
+	case appColor
+	case blueTop = "blue_1"
+	case blueTopMid = "blue_2"
+	case blueMid = "blue_3"
+	case blueMidBottom = "blue_4"
+	case blueBottom = "blue_5"
 }
 
 // MARK: - UIImage

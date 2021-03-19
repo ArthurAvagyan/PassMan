@@ -9,11 +9,19 @@ import UIKit
 
 class PasswordsViewController: BaseViewController {
 	
-	@IBOutlet var addPasswordButton: UIButton!
+	init(user: UserModel) {
+		viewModel = PasswordsViewModel(user: user)
+		super.init(nibName: "PasswordsViewController", bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	@IBOutlet var addPasswordButton: CustomButton!
 	@IBOutlet var tableView: UITableView!
 	
-	private let viewModel = PasswordsViewModel()
-	
+	private let viewModel: PasswordsViewModel
 }
 
 extension PasswordsViewController {
@@ -22,6 +30,8 @@ extension PasswordsViewController {
         super.viewDidLoad()
 
 		configureUI()
+		bindViewModel()
+		viewModel.getPasswords()
     }
 }
 
@@ -31,15 +41,26 @@ extension PasswordsViewController {
 		tableView.delegate = self
 		tableView.dataSource = self
 		tableView.registerCell(of: PasswordTableViewCell.self)
+		tableView.tableFooterView = UIView()
+		
+		navigationController?.navigationBar.prefersLargeTitles = true
+		title = "Passwords"
+	}
+	
+	func bindViewModel() {
+		viewModel.passwords.bind { [weak self] _ in
+			self?.tableView.reloadData()
+		}
 	}
 }
 
 extension PasswordsViewController {
 	
-	@IBAction func addPasswordButtonAction(_ sender: Any) {
-		let vc = NewPasswordViewController { [weak self] in
+	@IBAction func addPasswordButtonAction(_ sender: UIButton) {
+		let vc = NewPasswordViewController { [weak self] model in
 			guard let self = self else { return }
 			
+			self.viewModel.addPassword(model)
 		}
 		
 		present(vc, animated: true)
@@ -49,11 +70,18 @@ extension PasswordsViewController {
 extension PasswordsViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		5
+		viewModel.passwords.value.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueCell(of: PasswordTableViewCell.self, for: indexPath)
+		let model = viewModel.passwords.value[indexPath.row]
+		cell.update(with: model)
+		cell.onCopy = { [weak self] in
+			guard let self = self else { return }
+			self.showToast(message: "Password copied to the clipboard")
+			UIPasteboard.general.string = model.password
+		}
 		return cell
 	}
 }

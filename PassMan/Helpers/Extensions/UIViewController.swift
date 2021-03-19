@@ -16,6 +16,30 @@ extension UIViewController {
 		sceneDelegate?.setRoot()
 	}
 	
+	func showToast(message: String, font: UIFont = UIFont.systemFont(ofSize: 15)) {
+		let toastLabel = UILabel(frame: CGRect(x: 75,
+											   y: view.frame.size.height - 100,
+											   width: view.frame.size.width - 150,
+											   height: 40))
+		toastLabel.backgroundColor = UIColor.systemGray
+		toastLabel.textColor = UIColor.white
+		toastLabel.font = font
+		toastLabel.textAlignment = .center
+		toastLabel.text = message
+		toastLabel.minimumScaleFactor = 0.5
+		
+		toastLabel.layer.cornerRadius = 20
+		toastLabel.layer.masksToBounds = true
+		
+		view.addSubview(toastLabel)
+		
+		UIView.animate(withDuration: 2, delay: 0.1, options: .curveEaseOut, animations: {
+			 toastLabel.alpha = 0.0
+		}, completion: { (_) in
+			toastLabel.removeFromSuperview()
+		})
+	}
+	
 //	func showAlert(title: String,
 //				   message: String,
 //				   actions: [UIAlertAction] = [],
