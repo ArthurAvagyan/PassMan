@@ -7,7 +7,6 @@
 
 import CryptoSwift
 import Foundation
-//import SwiftKeychainWrapper
 
 class MasterPasswordViewModel {
 	
@@ -15,6 +14,7 @@ class MasterPasswordViewModel {
 	
 	private let coreDataManager = UsersCoreDataManager()
 	
+	var onUpdateValidation: (([PasswordValidation]) -> Void)?
 	var onSuccess: ((UserModel) -> Void)?
 	var onError: ((Error) -> Void)?
 	
@@ -22,7 +22,11 @@ class MasterPasswordViewModel {
 		self.email = email
 	}
 	
-	var password: String = ""
+	var password: String = "" {
+		didSet {
+			validateMatchingRestrictions()
+		}
+	}
 	var repeatPassword: String = ""
 }
 
@@ -30,12 +34,12 @@ extension MasterPasswordViewModel {
 	
 	func proceed() {
 		guard password.isValidPassword.isValid else {
-			onError?(NSError())
+			onError?(NSError.error(.invalidPassword))
 			return
 		}
 		
 		guard password == repeatPassword else {
-			onError?(NSError())
+			onError?(NSError.error(.passwordsNotMatching))
 			return
 		}
 		
@@ -58,5 +62,27 @@ extension MasterPasswordViewModel {
 				}
 			}
 		}
+	}
+	
+	func validateMatchingRestrictions() {
+		var pendingValidations: [PasswordValidation] = []
+		
+		if password.count < 8 {
+			pendingValidations.append(.short)
+		}
+		if !password.isMatchingRegex("[0-9]") {
+			pendingValidations.append(.noNumber)
+		}
+		if !password.isMatchingRegex("[a-z]") {
+			pendingValidations.append(.noLowercase)
+		}
+		if !password.isMatchingRegex("[A-Z]") {
+			pendingValidations.append(.noUppercase)
+		}
+		if !password.isMatchingRegex("[\\[\\]\\{\\}\\s#%^*+=_\\\\|~<>…€£¥•.,?!'-/:;`()$&@\"]") {
+			pendingValidations.append(.noSpecial)
+		}
+		
+		onUpdateValidation?(pendingValidations)
 	}
 }

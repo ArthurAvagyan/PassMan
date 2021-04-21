@@ -77,9 +77,7 @@ extension PasswordsViewController: UITableViewDataSource {
 		let cell = tableView.dequeueCell(of: PasswordTableViewCell.self, for: indexPath)
 		let model = viewModel.passwords.value[indexPath.row]
 		cell.update(with: model)
-		cell.onCopy = { [weak self] in
-			guard let self = self else { return }
-			self.showToast(message: "Password copied to the clipboard")
+		cell.onCopy = {
 			UIPasteboard.general.string = model.password
 		}
 		return cell

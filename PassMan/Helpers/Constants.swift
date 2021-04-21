@@ -17,7 +17,26 @@ struct Constants {
 // MARK: - ValidationErrorType
 enum ValidationErrorType: Int {
 	
-	case tempError
+	case invalidEmail
+	case invalidPassword
+	case passwordsNotMatching
+	case wrongPassword
+	case noName
+	case noUsername
+}
+
+enum PasswordValidation {
+	
+	case noNumber
+	case noLowercase
+	case noUppercase
+	case noSpecial
+	case short
+	case valid
+	
+	var isValid: Bool {
+		self == .valid
+	}
 }
 
 // MARK: - ColorType
@@ -34,7 +53,9 @@ enum ColorType: String {
 // MARK: - UIImage
 enum ImageType: String {
 	
-	case temp = "temp"
+	case eyeActive = "eye_active"
+	case eyeInactive = "eye_inactive"
+	case close = "close_icon"
 }
 
 // MARK: - SizeConstants

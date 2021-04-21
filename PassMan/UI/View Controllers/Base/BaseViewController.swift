@@ -62,3 +62,11 @@ class BaseViewController: UIViewController {
 		pastelView.edgesToSuperview()
 	}
 }
+
+extension BaseViewController: UITextFieldDelegate {
+	
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		view.endEditing(true)
+		return true
+	}
+}

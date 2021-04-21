@@ -117,20 +117,6 @@ extension String {
 		return isMatchingRegex(emailRegEx)
 	}
 	
-	enum PasswordValidation {
-		
-		case noNumber
-		case noLowercase
-		case noUppercase
-		case noSpecial
-		case short
-		case valid
-		
-		var isValid: Bool {
-			self == .valid
-		}
-	}
-	
 	var isValidPassword: PasswordValidation {
 		if count < 8 {
 			return .short
@@ -275,5 +261,26 @@ extension Data {
 			  let prettyPrintedString = String(data: data, encoding: String.Encoding.utf8) else { return nil }
 
 		return prettyPrintedString
+	}
+}
+
+// MARK: - NSError
+extension NSError {
+	
+	// swiftlint:disable:next cyclomatic_complexity
+	static func error(_ errorType: ValidationErrorType) -> NSError {
+		var message = ""
+		
+		switch errorType {
+		case .invalidEmail: 			message = "Invalid email"
+		case .invalidPassword: 			message = "Massword must match all restrictions"
+		case .passwordsNotMatching: 	message = "Passwords do not match"
+		case .wrongPassword:			message = "Wrong password"
+		case .noName:					message = "Name must not be empty"
+		case .noUsername:				message = "Username must not be empty"
+				
+		}
+		
+		return NSError(domain: "", code: errorType.rawValue, userInfo: [NSLocalizedDescriptionKey: message])
 	}
 }

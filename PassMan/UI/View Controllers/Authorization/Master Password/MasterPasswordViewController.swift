@@ -46,10 +46,40 @@ extension MasterPasswordViewController {
 	func configureUI() {
 		passwordTextField.delegate = self
 		repeatPasswordTextField.delegate = self
+		passwordTextField.addEyeButton()
+		repeatPasswordTextField.addEyeButton()
+		passwordTextField.isSecureTextEntry = true
+		repeatPasswordTextField.isSecureTextEntry = true
 	}
 	
 	func bindViewModel() {
 		
+		viewModel.onUpdateValidation = { [weak self] (pendingValidations) in
+			guard let self = self else { return }
+			self.lowercaseLabel.textColor = .systemGreen
+			self.uppercaseLabel.textColor = .systemGreen
+			self.numberLabel.textColor = .systemGreen
+			self.symbolLabel.textColor = .systemGreen
+			self.lengthLabel.textColor = .systemGreen
+			
+			pendingValidations.forEach {
+				switch $0 {
+				case .noNumber:
+					self.numberLabel.textColor = .label
+				case .noLowercase:
+					self.lowercaseLabel.textColor = .label
+				case .noUppercase:
+					self.uppercaseLabel.textColor = .label
+				case .noSpecial:
+					self.symbolLabel.textColor = .label
+				case .short:
+					self.lengthLabel.textColor = .label
+				case .valid:
+					break
+				}
+			}
+			
+		}
 		viewModel.onSuccess = { [weak self] (user) in
 			guard let self = self else { return }
 			self.activityIndicator.stopAnimating()
@@ -62,7 +92,7 @@ extension MasterPasswordViewController {
 			guard let self = self else { return }
 			self.activityIndicator.stopAnimating()
 			
-			// show alert with error
+			self.showAlert(with: error)
 		}
 	}
 }
@@ -75,7 +105,7 @@ extension MasterPasswordViewController {
 	}
 }
 
-extension MasterPasswordViewController: UITextFieldDelegate {
+extension MasterPasswordViewController {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
@@ -92,7 +122,7 @@ extension MasterPasswordViewController: UITextFieldDelegate {
 		return true
 	}
 	
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+	override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		switch textField {
 		case passwordTextField:
 			repeatPasswordTextField.becomeFirstResponder()

@@ -61,30 +61,30 @@ extension UIViewController {
 //		present(alertController, animated: true, completion: completion)
 //	}
 
-//	func showAlert(with error: Error,
-//				   repeatAction selector: Selector? = nil,
-//				   _ object: Any? = nil) {
-//		let alertController = UIAlertController(title: .localized(.error),
-//												message: error.localizedDescription,
-//												preferredStyle: .alert)
-//		alertController.view.tintColor = .systemBlue
-////		alertController.configureUI(title: .localized(.error),
-////									message: error.localizedDescription)
-//
-//		alertController.addAction(UIAlertAction(title: .localized(.ok),
-//												style: .default))
-//		if let selector = selector {
-//			alertController.addAction(UIAlertAction(title: .localized(.repeatAction),
-//													style: .default,
-//													handler: { [self] _ in
-//				if responds(to: selector) {
-//					perform(selector, with: object)
-//				}
-//			}))
-//		}
-//
-//		present(alertController, animated: true, completion: nil)
-//	}
+	func showAlert(with error: Error,
+				   repeatAction selector: Selector? = nil,
+				   _ object: Any? = nil) {
+		let alertController = UIAlertController(title: "Something went wrong",
+												message: error.localizedDescription,
+												preferredStyle: .alert)
+		alertController.view.tintColor = .systemBlue
+//		alertController.configureUI(title: .localized(.error),
+//									message: error.localizedDescription)
+
+		alertController.addAction(UIAlertAction(title: "OK",
+												style: .default))
+		if let selector = selector {
+			alertController.addAction(UIAlertAction(title: "Try Again",
+													style: .default,
+													handler: { [self] _ in
+				if responds(to: selector) {
+					perform(selector, with: object)
+				}
+			}))
+		}
+
+		present(alertController, animated: true, completion: nil)
+	}
 	
 	func popTo<T: UIViewController>(_ type: T.Type) {
 		for controller in navigationController?.viewControllers ?? [] {

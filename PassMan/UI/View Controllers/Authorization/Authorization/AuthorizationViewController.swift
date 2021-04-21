@@ -21,6 +21,8 @@ extension AuthorizationViewController {
         super.viewDidLoad()
 		
 		bindViewModel()
+		emailTextField.delegate = self
+		emailTextField.addDeleteButton()
 		
 		navigationController?.navigationBar.prefersLargeTitles = true
 		title = "Authorization"
@@ -52,6 +54,7 @@ extension AuthorizationViewController {
 			
 			self.activityIndicator.stopAnimating()
 			// show alert with error
+			self.showAlert(with: error)
 		}
 	}
 }

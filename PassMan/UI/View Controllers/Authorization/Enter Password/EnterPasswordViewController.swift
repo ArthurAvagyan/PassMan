@@ -29,6 +29,10 @@ extension EnterPasswordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		passwordTextField.delegate = self
+		passwordTextField.addEyeButton()
+		passwordTextField.isSecureTextEntry = true
+		
 		bindViewModel()
     }
 }
@@ -57,12 +61,7 @@ extension EnterPasswordViewController {
 			guard let self = self else { return }
 			
 			self.activityIndicator.stopAnimating()
+			self.showAlert(with: error)
 		}
 	}
 }
-
-extension EnterPasswordViewController {}
-
-extension EnterPasswordViewController {}
-
-extension EnterPasswordViewController {}

@@ -19,7 +19,7 @@ class AuthorizationViewModel {
 	
 	func proceed() {
 		guard email.isValidEmail else {
-			onError?(NSError())
+			onError?(NSError.error(.invalidEmail))
 			return
 		}
 		

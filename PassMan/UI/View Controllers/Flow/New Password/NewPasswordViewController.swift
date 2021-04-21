@@ -63,12 +63,21 @@ extension NewPasswordViewController {
 		
 		passwordLengthLabel.text = "Password length: \(Int(passwordLengthSlider.value))"
 		nameTextField.delegate = self
+		nameTextField.addDeleteButton()
 		usernameTextField.delegate = self
+		usernameTextField.addDeleteButton()
 		passwordTextField.delegate = self
 		passwordTextField.rightView = regenerateButton
+		passwordTextField.rightViewMode = .always
+		
+		uppercasesStepper.minimumValue = 0
+		numbersStepper.minimumValue = 0
+		symbolsStepper.minimumValue = 0
+		
 		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeKeyboard)))
 	}
 	
+	// swiftlint:disable:next function_body_length
 	func bindViewModel() {
 		viewModel.onSuccess = { [weak self] (model) in
 			guard let self = self else { return }
@@ -82,6 +91,7 @@ extension NewPasswordViewController {
 			guard let self = self else { return }
 			
 			self.activityIndicator.stopAnimating()
+			self.showAlert(with: error)
 		}
 		
 		viewModel.password.bind { [weak self] (password) in
@@ -90,6 +100,8 @@ extension NewPasswordViewController {
 		}
 		
 		viewModel.passwordLength.bindAndNotify { [self] (passwordLength) in
+			guard passwordLengthSlider.value != Float(passwordLength) else { return }
+			
 			passwordLengthLabel.text = "Password length: \(passwordLength)"
 			passwordLengthSlider.value = Float(passwordLength)
 			viewModel.generatePassword()
@@ -98,6 +110,7 @@ extension NewPasswordViewController {
 		viewModel.hasUppercases.bindAndNotify { [self] (hasUppercases) in
 			UIView.animate(withDuration: 0.3) {
 				self.uppercasesStackView.isHidden = !hasUppercases
+				self.uppercaseSwitch.setOn(hasUppercases, animated: true)
 			}
 			
 			if !hasUppercases {
@@ -109,6 +122,7 @@ extension NewPasswordViewController {
 		viewModel.hasNumbers.bindAndNotify { [self] (hasNumbers) in
 			UIView.animate(withDuration: 0.3) {
 				self.numbersStackView.isHidden = !hasNumbers
+				self.numbersSwitch.setOn(hasNumbers, animated: true)
 			}
 			if !hasNumbers {
 				viewModel.numbersCount.value = 0
@@ -119,6 +133,7 @@ extension NewPasswordViewController {
 		viewModel.hasSymbols.bindAndNotify { [self] (hasSymbols) in
 			UIView.animate(withDuration: 0.3) {
 				self.symbolsStackView.isHidden = !hasSymbols
+				self.symbolsSwitch.setOn(hasSymbols, animated: true)
 			}
 			if !hasSymbols {
 				viewModel.symbolsCount.value = 0
@@ -129,18 +144,39 @@ extension NewPasswordViewController {
 		viewModel.uppercasesCount.bindAndNotify { [self] (uppercasesCount) in
 			uppercasesCountLabel.text = "\(uppercasesCount)"
 			uppercasesStepper.value = Double(uppercasesCount)
+		
+			let additionalCount = viewModel.numbersCount.value + viewModel.symbolsCount.value + viewModel.uppercasesCount.value
+			let maximumValue = Double(viewModel.passwordLength.value - additionalCount - 1)
+			uppercasesStepper.maximumValue = uppercasesStepper.value + maximumValue
+			numbersStepper.maximumValue = numbersStepper.value + maximumValue
+			symbolsStepper.maximumValue = symbolsStepper.value + maximumValue
+				
 			viewModel.generatePassword()
 		}
 		
 		viewModel.numbersCount.bindAndNotify { [self] (numbersCount) in
 			numbersCountLabel.text = "\(numbersCount)"
 			numbersStepper.value = Double(numbersCount)
+			
+			let additionalCount = viewModel.numbersCount.value + viewModel.symbolsCount.value + viewModel.uppercasesCount.value
+			let maximumValue = Double(viewModel.passwordLength.value - additionalCount - 1)
+			uppercasesStepper.maximumValue = uppercasesStepper.value + maximumValue
+			numbersStepper.maximumValue = numbersStepper.value + maximumValue
+			symbolsStepper.maximumValue = symbolsStepper.value + maximumValue
+			
 			viewModel.generatePassword()
 		}
 		
 		viewModel.symbolsCount.bindAndNotify { [self] (symbolsCount) in
 			symbolsCountLabel.text = "\(symbolsCount)"
 			symbolsStepper.value = Double(symbolsCount)
+			
+			let additionalCount = viewModel.numbersCount.value + viewModel.symbolsCount.value + viewModel.uppercasesCount.value
+			let maximumValue = Double(viewModel.passwordLength.value - additionalCount - 1)
+			uppercasesStepper.maximumValue = uppercasesStepper.value + maximumValue
+			numbersStepper.maximumValue = numbersStepper.value + maximumValue
+			symbolsStepper.maximumValue = symbolsStepper.value + maximumValue
+			
 			viewModel.generatePassword()
 		}
 	}
@@ -150,6 +186,12 @@ extension NewPasswordViewController {
 	
 	@IBAction func passwordLengthSliderAction(_ sender: UISlider) {
 		viewModel.passwordLength.value = Int(sender.value)
+		
+		let additionalCount = viewModel.numbersCount.value + viewModel.symbolsCount.value + viewModel.uppercasesCount.value
+		let maximumValue = Double(viewModel.passwordLength.value - additionalCount - 1)
+		uppercasesStepper.maximumValue = uppercasesStepper.value + maximumValue
+		numbersStepper.maximumValue = numbersStepper.value + maximumValue
+		symbolsStepper.maximumValue = symbolsStepper.value + maximumValue
 	}
 	
 	@IBAction func uppercasesSwitchAction(_ sender: UISwitch) {
@@ -190,12 +232,11 @@ extension NewPasswordViewController {
 	}
 	
 	@IBAction func regenerateButtonAction(_ sender: UIButton) {
-		activityIndicator.startAnimating()
 		viewModel.generatePassword()
 	}
 }
 
-extension NewPasswordViewController: UITextFieldDelegate {
+extension NewPasswordViewController {
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
@@ -214,7 +255,7 @@ extension NewPasswordViewController: UITextFieldDelegate {
 		return true
 	}
 	
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+	override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		switch textField {
 		case nameTextField:
 			usernameTextField.becomeFirstResponder()

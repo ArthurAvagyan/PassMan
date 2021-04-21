@@ -23,7 +23,7 @@ class EnterPasswordViewModel {
 	
 	func proceed() {
 		guard password.isValidPassword.isValid else {
-			onError?(NSError())
+			onError?(NSError.error(.wrongPassword))
 			return
 		}
 		

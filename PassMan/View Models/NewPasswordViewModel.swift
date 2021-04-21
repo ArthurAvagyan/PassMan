@@ -27,7 +27,7 @@ class NewPasswordViewModel {
 	
 	func generatePassword() {
 		let additionalCount = numbersCount.value + symbolsCount.value + uppercasesCount.value
-		guard additionalCount <= passwordLength.value else {
+		guard additionalCount <= passwordLength.value - 1 else {
 			passwordLength.value = additionalCount
 			return
 		}
@@ -61,8 +61,13 @@ class NewPasswordViewModel {
 	}
 	
 	func proceed() {
-		guard !name.isEmpty, !username.isEmpty else {
-			onError?(NSError())
+		guard !name.isEmpty else {
+			onError?(NSError.error(.noName))
+			return
+		}
+		
+		guard !username.isEmpty else {
+			onError?(NSError.error(.noUsername))
 			return
 		}
 		
