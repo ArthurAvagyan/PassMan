@@ -185,9 +185,14 @@ extension NewPasswordViewController {
 extension NewPasswordViewController {
 	
 	@IBAction func passwordLengthSliderAction(_ sender: UISlider) {
+		let additionalCount = viewModel.numbersCount.value + viewModel.symbolsCount.value + viewModel.uppercasesCount.value
+		
+		guard Int(sender.value) >= additionalCount + 1 else {
+			passwordLengthSlider.value = Float(additionalCount + 1)
+			return
+		}
 		viewModel.passwordLength.value = Int(sender.value)
 		
-		let additionalCount = viewModel.numbersCount.value + viewModel.symbolsCount.value + viewModel.uppercasesCount.value
 		let maximumValue = Double(viewModel.passwordLength.value - additionalCount - 1)
 		uppercasesStepper.maximumValue = uppercasesStepper.value + maximumValue
 		numbersStepper.maximumValue = numbersStepper.value + maximumValue
