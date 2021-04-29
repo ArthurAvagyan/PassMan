@@ -80,6 +80,10 @@ extension PasswordsViewController: UITableViewDataSource {
 		cell.onCopy = {
 			UIPasteboard.general.string = model.password
 		}
+		
+		cell.onCopyUsername = {
+			UIPasteboard.general.string = model.username
+		}
 		return cell
 	}
 	

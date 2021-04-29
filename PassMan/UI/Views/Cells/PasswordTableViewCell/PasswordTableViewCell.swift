@@ -20,6 +20,7 @@ class PasswordTableViewCell: UITableViewCell {
 	@IBOutlet var copyUsername: UIButton!
 	
 	var onCopy: (() -> Void)?
+	var onCopyUsername: (() -> Void)?
 	var onEyeAction: (() -> Void)?
 	
 	private var model: PasswordModel!
@@ -50,7 +51,7 @@ extension PasswordTableViewCell {
 extension PasswordTableViewCell {
 	
 	@IBAction func copyUsernameButtonAction(_ sender: Any) {
-		onCopy?()
+		onCopyUsername?()
 		UIView.animate(withDuration: 2) {
 			self.copiedUsername.alpha = 1
 		} completion: { (_) in
