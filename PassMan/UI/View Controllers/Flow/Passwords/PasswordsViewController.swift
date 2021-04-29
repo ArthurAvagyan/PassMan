@@ -82,6 +82,13 @@ extension PasswordsViewController: UITableViewDataSource {
 		}
 		return cell
 	}
+	
+	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			viewModel.deletePassowrd(at: indexPath)
+//			tableView.deleteRows(at: [indexPath], with: .fade)
+		}
+	}
 }
 
 extension PasswordsViewController: UITableViewDelegate {

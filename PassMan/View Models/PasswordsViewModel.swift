@@ -33,6 +33,11 @@ class PasswordsViewModel {
 		passwords.value.append(model)
 	}
 	
+	func deletePassowrd(at indexPath: IndexPath) {
+		coreDataManager.delete(at: indexPath.row, for: user)
+		passwords.value.remove(at: indexPath.row)
+	}
+	
 	func getPasswords() {
 		let cachedPasswords = coreDataManager.getAllPasswords(for: user)
 		

@@ -22,6 +22,19 @@ extension PasswordCoreDataManager {
 	}
 }
 
+// MARK: - Delete
+extension PasswordCoreDataManager {
+	
+	func delete(at index: Int, for user: UserModel) {
+		let managedContext = CoreDataManager.shared.getManagedContext()
+		
+		let models = getAllPasswords(for: user)
+		managedContext.delete(models![index])
+		
+		CoreDataManager.shared.saveChanges(in: managedContext)
+	}
+}
+
 // MARK: - Retrieve
 extension PasswordCoreDataManager {
 	
